@@ -26,6 +26,14 @@ class DoctorQueueView(APIView):
 
         return Response(serializer.data)
 
+class PatientHistoryView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, patient_id):
+        visits = Visit.objects.filter(patient_id=patient_id).order_by("-intime")
+        serializer = VisitSerializer(visits, many=True)
+        return Response(serializer.data)
+
 class VisitViewSet(viewsets.ModelViewSet):
     queryset = Visit.objects.all() 
 

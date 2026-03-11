@@ -48,6 +48,10 @@ export default function DoctorDashboard() {
                 <button onClick={() => navigate(`/consult/${v.id}`)}>
                     Start Consultation
                 </button>
+
+                <button onClick={() => navigate(`/patient-history/${v.patient}`)}>
+                    History
+                </button>
               </td>
             </tr>
           ))}

@@ -13,13 +13,12 @@ export default function Consultation() {
   const [height, setHeight] = useState("");
 
   useEffect(() => {
-    fetchVisit();
-  }, []);
-
-  const fetchVisit = async () => {
+    const fetchVisit = async () => {
     const res = await API.get(`visits/${id}/`);
     setVisit(res.data);
   };
+    fetchVisit();
+  }, [id]);
 
   const finishConsultation = async () => {
 

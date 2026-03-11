@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from patients.views import PatientViewSet
-from visits.views import VisitViewSet, DoctorQueueView
+from visits.views import VisitViewSet, DoctorQueueView, PatientHistoryView
 from prescriptions.views import PrescriptionViewSet
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -27,4 +27,5 @@ urlpatterns = [
     path('api/login/', LoginView.as_view(), name='login'),
     path('api/register/', RegisterView.as_view(), name='register'),
     path('api/doctor-queue/', DoctorQueueView.as_view(), name='doctorqueue'),
+    path('api/patient-history/<int:patient_id>/', PatientHistoryView.as_view(), name='patienthistory'),
 ]

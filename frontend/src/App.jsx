@@ -7,6 +7,7 @@ import ReceptionDashboard from "./pages/ReceptionDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import GenerateToken from "./pages/GenerateToken";
 import Consultation from "./pages/Consultation";
+import PatientHistory from "./pages/PatientHistory";
 
 function App() {
 
@@ -30,6 +31,8 @@ function App() {
         <Route path="/generate-token" element={<ProtectedRoute role="reception"><GenerateToken /></ProtectedRoute>} />
 
         <Route path="/consult/:id" element={<ProtectedRoute role="doctor"><Consultation /></ProtectedRoute>} />
+
+        <Route path="patient-history/:id" element={<ProtectedRoute role="doctor"><PatientHistory /></ProtectedRoute>} />
 
       </Routes>
 
