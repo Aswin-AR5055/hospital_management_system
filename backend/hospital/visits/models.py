@@ -9,13 +9,13 @@ class Visit(models.Model):
 
     token_no = models.IntegerField()
 
-    health_issue = models.TextField()
+    health_issue = models.TextField(null=True, blank=True)
 
-    weight = models.FloatField()
+    weight = models.FloatField(null=True, blank=True)
 
-    blood_pressure = models.CharField(max_length=20)
+    blood_pressure = models.CharField(max_length=20, null=True, blank=True)
 
-    height = models.FloatField()
+    height = models.FloatField(null=True, blank=True)
 
     intime = models.DateTimeField(auto_now_add=True)
 

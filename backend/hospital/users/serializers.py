@@ -4,6 +4,12 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 User = get_user_model()
 
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'role']
+
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
@@ -29,10 +35,15 @@ class LoginSerializer(serializers.Serializer):
 
     def validate(self, data):
 
-        user = authenticate(**data)
+        user = authenticate(
+            username=data.get("username"),
+            password=data.get("password")
+        )
 
         if not user:
             raise serializers.ValidationError("Invalid Credentials")
+        if not user.is_active:
+            raise serializers.ValidationError("User disabled")
 
         refresh = RefreshToken.for_user(user)
 

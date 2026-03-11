@@ -18,7 +18,7 @@ class Patient(models.Model):
 
     temperature = models.FloatField()
 
-    photo = models.ImageField(upload_to="patients/", null=True)
+    photo = models.ImageField(upload_to="patients/pictures/", null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
 

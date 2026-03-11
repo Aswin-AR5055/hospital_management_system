@@ -1,6 +1,8 @@
 from rest_framework.views import APIView
+from rest_framework import viewsets
 from rest_framework.response import Response
-from .serializers import LoginSerializer, RegisterSerializer
+from .models import User
+from .serializers import LoginSerializer, RegisterSerializer, UserSerializer
 from rest_framework.permissions import IsAuthenticated
 
 class RegisterView(APIView):
@@ -27,3 +29,8 @@ class LoginView(APIView):
         serializer.is_valid(raise_exception=True)
 
         return Response(serializer.validated_data)
+
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
