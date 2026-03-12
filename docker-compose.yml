@@ -15,7 +15,7 @@ services:
   backend:
     build: ./backend
     restart: always
-    command: gunicorn hospital.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn hospital.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120
     depends_on:
       - db
     environment:
