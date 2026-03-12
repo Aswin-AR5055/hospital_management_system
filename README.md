@@ -2,6 +2,24 @@
 
 A full-stack hospital management system built with Django REST Framework (backend) and React (frontend), deployed on AWS EC2 with CloudFront CDN.
 
+## 🚀 Live Demo
+
+<div align="center">
+
+### [![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Application-success?style=for-the-badge&logo=google-chrome&logoColor=white)](https://d2nc0r5fw615iw.cloudfront.net)
+
+**🔐 Test Credentials**
+
+| Field | Value |
+|-------|-------|
+| 👤 Username | `admin` |
+| 🔑 Password | `admin123` |
+| 🎭 Role | Reception (Full Access) |
+
+</div>
+
+---
+
 ## Table of Contents
 - [Features](#features)
 - [Architecture](#architecture)
