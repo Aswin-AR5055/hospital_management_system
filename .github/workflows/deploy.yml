@@ -1,37 +1,31 @@
-name: Deploy Hospital App
+name: Deploy to EC2
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Deploy to EC2
+      - name: Deploy
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
+          username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
 
-            if ! command -v docker &> /dev/null
-            then
-              sudo apt update
-              sudo apt install -y docker.io
-              sudo systemctl start docker
-              sudo systemctl enable docker
-              sudo usermod -aG docker $USER
-            fi
+            sudo apt update
+            sudo apt install -y docker.io git curl
 
-            if ! docker compose version &> /dev/null
-            then
-              sudo apt install -y docker-compose-plugin
+            sudo systemctl start docker
+            sudo systemctl enable docker
+
+            if [ ! -f /usr/local/bin/docker-compose ]; then
+              sudo curl -L https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+              sudo chmod +x /usr/local/bin/docker-compose
             fi
 
             if [ ! -d "hospital_management_system" ]; then
@@ -39,19 +33,9 @@ jobs:
             fi
 
             cd hospital_management_system
-            git fetch --all
-            git reset --hard origin/master
+            git pull
 
-            docker compose down
-            script: |
-
-            cd hospital_management_system || git clone ${{ secrets.REPO_URL }} hospital_management_system
-            cd hospital_management_system
-            git fetch --all
-            git reset --hard origin/master
-            
-            # ===== CREATE ENV FILE =====
-            cat > .env <<EOF
+            cat > .env <<'EOF'
             POSTGRES_DB=${{ secrets.DB_NAME }}
             POSTGRES_USER=${{ secrets.DB_USER }}
             POSTGRES_PASSWORD=${{ secrets.DB_PASSWORD }}
@@ -59,16 +43,8 @@ jobs:
             DEBUG=False
             EOF
 
-            docker compose down
-            docker compose up -d --build
-            docker compose up -d --build
+            sudo docker-compose down
+            sudo docker-compose up -d --build
 
-            docker compose exec -T backend python manage.py migrate
-
-            docker compose exec -T backend python manage.py collectstatic --noinput
-
-            docker compose exec -T backend python manage.py shell -c "
-            from django.contrib.auth import get_user_model;
-            User=get_user_model();
-            User.objects.filter(username='admin').exists() or
-            User.objects.create_superuser('admin','admin@local.com','admin123')
+            sudo docker-compose exec -T backend python manage.py migrate
+            sudo docker-compose exec -T backend python manage.py collectstatic --noinput
