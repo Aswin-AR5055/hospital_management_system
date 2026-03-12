@@ -45,10 +45,11 @@ jobs:
             docker compose down
             script: |
 
-            cd hospital-app || git clone ${{ secrets.REPO_URL }} hospital-app
-            cd hospital-app
-            git pull origin main
-
+            cd hospital_management_system || git clone ${{ secrets.REPO_URL }} hospital_management_system
+            cd hospital_management_system
+            git fetch --all
+            git reset --hard origin/master
+            
             # ===== CREATE ENV FILE =====
             cat > .env <<EOF
             POSTGRES_DB=${{ secrets.DB_NAME }}
