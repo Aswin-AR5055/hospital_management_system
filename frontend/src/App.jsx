@@ -9,6 +9,7 @@ import GenerateToken from "./pages/GenerateToken";
 import Consultation from "./pages/Consultation";
 import PatientHistory from "./pages/PatientHistory";
 import Unauthorized from "./pages/Unauthorized";
+import PatientRegister from "./pages/PatientRegister";
 
 function App() {
 
@@ -32,6 +33,8 @@ function App() {
         <Route path="/patient-history/:id" element={<ProtectedRoute role="doctor"><PatientHistory /></ProtectedRoute>} />
 
         <Route path="/unauthorized" element={<Unauthorized />} />
+
+        <Route path="/patient-register" element={<ProtectedRoute role="reception"><PatientRegister /></ProtectedRoute>} />
 
       </Routes>
 

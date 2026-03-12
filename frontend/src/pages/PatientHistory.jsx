@@ -43,6 +43,7 @@ export default function PatientHistory() {
                   <th>BP</th>
                   <th>Weight</th>
                   <th>Height</th>
+                  <th>Medicines</th>
                   <th>Date</th>
                 </tr>
               </thead>
@@ -53,6 +54,13 @@ export default function PatientHistory() {
                     <td>{visit.blood_pressure || "-"}</td>
                     <td>{visit.weight || "-"}</td>
                     <td>{visit.height || "-"}</td>
+                    <td>
+                      {visit.prescriptions?.map(p => (
+                        <div key={p.id}>
+                          {p.medicine_name} ({p.quantity})
+                        </div>
+                      ))}
+                    </td>
                     <td>{new Date(visit.intime).toLocaleString()}</td>
                   </tr>
                 ))}

@@ -58,12 +58,12 @@ export default function DoctorDashboard() {
           <p className="page-copy mt-4">
             Review waiting patients, start consultations, and open patient visit history.
           </p>
+          <button style={{float: "right", marginTop: "-100px"}} className="btn-danger" onClick={logout}>Logout</button>
         </section>
 
         <section className="panel">
           <div className="actions">
             <button className="btn-primary" onClick={fetchQueue}>Refresh Queue</button>
-            <button className="btn-danger" onClick={logout}>Logout</button>
           </div>
           {error ? <div className="feedback-error mt-4">{error}</div> : null}
         </section>

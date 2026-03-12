@@ -20,6 +20,8 @@ export default function ReceptionDashboard() {
           <p className="page-copy mt-4">
             Manage user onboarding and create patient visit tokens from one place.
           </p>
+          <br />
+          <button style={{float: "right", marginTop: "-100px"}} className="btn-danger" onClick={handleLogout}>Logout</button>
         </section>
 
         <section className="stat-grid">
@@ -35,13 +37,17 @@ export default function ReceptionDashboard() {
             <p className="stat-label">Session</p>
             <p className="stat-value">Secure JWT-based access for staff workflows</p>
           </div>
+          <div className="stat-card">
+            <p className="stat-label">Patient</p>
+            <p className="stat-value">Register Patients as needed using the Register Patient button</p>
+          </div>
         </section>
 
         <section className="panel">
           <div className="actions">
             <button className="btn-primary" onClick={() => navigate("/register")}>Create Staff Account</button>
+            <button className="btn-primary" onClick={() => navigate("/patient-register")}>Register Patient</button>
             <button className="btn-secondary" onClick={() => navigate("/generate-token")}>Generate Token</button>
-            <button className="btn-danger" onClick={handleLogout}>Logout</button>
           </div>
         </section>
       </div>

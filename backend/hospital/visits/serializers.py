@@ -1,16 +1,35 @@
 from rest_framework import serializers
 from .models import Visit
 from django.utils import timezone
+from prescriptions.serializers import PrescriptionSerializer
 
 class VisitSerializer(serializers.ModelSerializer):
+
+    prescriptions = PrescriptionSerializer(source="prescription_set", many=True, read_only=True)
 
     class Meta:
         model = Visit
         fields = '__all__'
         read_only_fields = ['token_no', 'intime', 'outtime']
+        extra_kwargs = {
+            'patient': {'required': False},
+            'doctor': {'required': False},
+        }
 
     def validate(self, attrs):
-        doctor = attrs.get("doctor")
+        if self.instance is None:
+            errors = {}
+
+            if not attrs.get("patient"):
+                errors["patient"] = "This field is required."
+
+            if not attrs.get("doctor"):
+                errors["doctor"] = "This field is required."
+
+            if errors:
+                raise serializers.ValidationError(errors)
+
+        doctor = attrs.get("doctor", getattr(self.instance, "doctor", None))
 
         if doctor and doctor.role != "doctor":
             raise serializers.ValidationError({
