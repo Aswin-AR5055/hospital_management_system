@@ -34,16 +34,24 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField()
 
     def validate(self, data):
+        username = data.get("username", "").strip()
+        password = data.get("password")
+
+        matched_user = User.objects.filter(username__iexact=username).first()
 
         user = authenticate(
-            username=data.get("username"),
-            password=data.get("password")
+            username=matched_user.username if matched_user else username,
+            password=password
         )
 
         if not user:
-            raise serializers.ValidationError("Invalid Credentials")
+            raise serializers.ValidationError({
+                "detail": "Invalid username or password."
+            })
         if not user.is_active:
-            raise serializers.ValidationError("User disabled")
+            raise serializers.ValidationError({
+                "detail": "This account is disabled."
+            })
 
         refresh = RefreshToken.for_user(user)
 

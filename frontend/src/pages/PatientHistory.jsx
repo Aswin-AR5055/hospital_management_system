@@ -1,60 +1,76 @@
 import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import API from "../api/axios";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { getApiErrorMessage } from "../utils/apiError";
 
 export default function PatientHistory() {
-
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [visits, setVisits] = useState([]);
-
-  const navigate = useNavigate();
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchHistory = async () => {
-    const res = await API.get(`patient-history/${id}/`);
-    setVisits(res.data);
-  };
+      try {
+        const res = await API.get(`patient-history/${id}/`);
+        setVisits(res.data);
+      } catch (err) {
+        setError(getApiErrorMessage(err, "Unable to load the patient history."));
+      }
+    };
+
     fetchHistory();
   }, [id]);
 
   return (
-    <div>
+    <div className="page-shell">
+      <div className="page-content">
+        <section className="hero-panel">
+          <p className="eyebrow">Patient Record</p>
+          <h1 className="page-title mt-4">Visit history for patient #{id}</h1>
+          <p className="page-copy mt-4">Review previous vitals and consultation timestamps.</p>
+        </section>
 
-      <h2>Patient History</h2>
+        {error ? <div className="feedback-error">{error}</div> : null}
 
-      <table border="1">
-        <thead>
-          <tr>
-            <th>Token</th>
-            <th>BP</th>
-            <th>Weight</th>
-            <th>Height</th>
-            <th>Date</th>
-          </tr>
-        </thead>
+        <section className="table-shell">
+          <div className="table-wrap">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Token</th>
+                  <th>BP</th>
+                  <th>Weight</th>
+                  <th>Height</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {visits.map((visit) => (
+                  <tr key={visit.id}>
+                    <td>{visit.token_no}</td>
+                    <td>{visit.blood_pressure || "-"}</td>
+                    <td>{visit.weight || "-"}</td>
+                    <td>{visit.height || "-"}</td>
+                    <td>{new Date(visit.intime).toLocaleString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-        <tbody>
-          {visits.map(v => (
-            <tr key={v.id}>
-              <td>{v.token_no}</td>
-              <td>{v.blood_pressure}</td>
-              <td>{v.weight}</td>
-              <td>{v.height}</td>
-              <td>{v.intime}</td>
-            </tr>
-          ))}
-        </tbody>
+          {!visits.length && !error ? (
+            <div className="empty-state m-5">No historical visits were found for this patient.</div>
+          ) : null}
+        </section>
 
-      </table>
-
-      <br />
-
-      <button onClick={() => navigate(-1)}>
-        Back
-      </button>
-
+        <div className="actions">
+          <button className="btn-secondary" onClick={() => navigate(-1)}>
+            Back
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

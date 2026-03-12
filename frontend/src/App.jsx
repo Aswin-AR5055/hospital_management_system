@@ -8,6 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import GenerateToken from "./pages/GenerateToken";
 import Consultation from "./pages/Consultation";
 import PatientHistory from "./pages/PatientHistory";
+import Unauthorized from "./pages/Unauthorized";
 
 function App() {
 
@@ -20,10 +21,6 @@ function App() {
 
         <Route path="/register" element={<ProtectedRoute role="reception"><Register /></ProtectedRoute>} />
 
-        <Route path="/doctor" element={<DoctorDashboard />} />
-
-        <Route path="/reception" element={<ReceptionDashboard />} />
-
         <Route path="/doctor" element={<ProtectedRoute role="doctor"><DoctorDashboard /></ProtectedRoute>} />
 
         <Route path="/reception" element={<ProtectedRoute role="reception"><ReceptionDashboard /></ProtectedRoute>} />
@@ -32,7 +29,9 @@ function App() {
 
         <Route path="/consult/:id" element={<ProtectedRoute role="doctor"><Consultation /></ProtectedRoute>} />
 
-        <Route path="patient-history/:id" element={<ProtectedRoute role="doctor"><PatientHistory /></ProtectedRoute>} />
+        <Route path="/patient-history/:id" element={<ProtectedRoute role="doctor"><PatientHistory /></ProtectedRoute>} />
+
+        <Route path="/unauthorized" element={<Unauthorized />} />
 
       </Routes>
 

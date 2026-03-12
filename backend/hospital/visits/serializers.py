@@ -7,7 +7,17 @@ class VisitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Visit
         fields = '__all__'
-        read_only_fields = ['token_no', 'patient', 'doctor', 'intime']
+        read_only_fields = ['token_no', 'intime', 'outtime']
+
+    def validate(self, attrs):
+        doctor = attrs.get("doctor")
+
+        if doctor and doctor.role != "doctor":
+            raise serializers.ValidationError({
+                "doctor": "Selected user must have the doctor role."
+            })
+
+        return attrs
 
     def create(self, validated_data):
 
