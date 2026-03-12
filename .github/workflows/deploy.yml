@@ -62,10 +62,7 @@ jobs:
                 print('Superuser created with reception role')
             else:
                 admin = User.objects.get(username='admin')
-                if not admin.role:
-                    admin.role = 'reception'
-                    admin.save()
-                    print('Updated existing admin with reception role')
-                else:
-                    print('Superuser already exists with role:', admin.role)
+                admin.role = 'reception'
+                admin.save()
+                print('Admin role updated to reception')
             PYTHON
