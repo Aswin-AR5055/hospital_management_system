@@ -53,8 +53,10 @@ class VisitSerializer(serializers.ModelSerializer):
         if existing:
             return existing
 
+        # Token per doctor per day (not global)
         last_visit = Visit.objects.filter(
-            intime__date = today
+            doctor=doctor,
+            intime__date=today
         ).order_by('-token_no').first()
 
         if last_visit:

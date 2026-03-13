@@ -33,24 +33,19 @@ export default function ReceptionDashboard() {
             <p className="stat-value">Create doctor and reception logins</p>
           </div>
           <div className="stat-card">
-            <p className="stat-label">Visit Tokens</p>
-            <p className="stat-value">Assign patient-doctor pairs for today</p>
+            <p className="stat-label">Patient Registration</p>
+            <p className="stat-value">Register patients and assign to doctors with token generation</p>
           </div>
           <div className="stat-card">
             <p className="stat-label">Session</p>
             <p className="stat-value">Secure JWT-based access for staff workflows</p>
           </div>
-          <div className="stat-card">
-            <p className="stat-label">Patient</p>
-            <p className="stat-value">Register Patients as needed using the Register Patient button</p>
-          </div>
         </section>
 
         <section className="panel">
           <div className="actions">
-            <button className="btn-primary" onClick={() => navigate("/register")}>Create Staff Account</button>
-            <button className="btn-primary" onClick={() => navigate("/patient-register")}>Register Patient</button>
-            <button className="btn-secondary" onClick={() => navigate("/generate-token")}>Generate Token</button>
+            <button className="btn-primary" onClick={() => navigate("/patient-register")}>Register Patient & Generate Token</button>
+            <button className="btn-secondary" onClick={() => navigate("/register")}>Create Staff Account</button>
           </div>
         </section>
       </div>

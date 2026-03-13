@@ -38,6 +38,7 @@ class WhatsAppService:
 🏥 *New Patient Visit*
 
 👤 *Patient:* {patient.name}
+👨‍⚕️ *Doctor:* {doctor.username}
 🎫 *Token No:* {visit.token_no}
 📅 *Date:* {visit.intime.strftime('%d-%m-%Y %I:%M %p')}
 
