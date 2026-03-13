@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
 from .models import Visit
 from .serializers import VisitSerializer
+from .whatsapp_service import WhatsAppService
 
 class DoctorQueueView(APIView):
     permission_classes = [IsAuthenticated]
@@ -38,3 +39,10 @@ class VisitViewSet(viewsets.ModelViewSet):
     queryset = Visit.objects.all() 
 
     serializer_class = VisitSerializer
+
+    def perform_update(self, serializer):
+        visit = serializer.save()
+        # Send WhatsApp notification after consultation (when vitals are updated)
+        if visit.blood_pressure or visit.weight:
+            whatsapp_service = WhatsAppService()
+            whatsapp_service.send_visit_notification(visit)

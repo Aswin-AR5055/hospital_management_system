@@ -9,3 +9,4 @@ class User(AbstractUser):
     )
 
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    phone_number = models.CharField(max_length=15, blank=True, null=True, help_text="WhatsApp number with country code (e.g., +919999999999)")

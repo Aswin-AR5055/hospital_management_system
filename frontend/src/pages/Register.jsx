@@ -7,6 +7,7 @@ export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("doctor");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -21,6 +22,7 @@ export default function Register() {
         username: username.trim(),
         password,
         role,
+        phone_number: phoneNumber.trim(),
       });
 
       navigate("/reception");
@@ -68,17 +70,36 @@ export default function Register() {
             </div>
           </div>
 
-          <div className="field-group mt-4 max-w-sm">
-            <label className="field-label" htmlFor="register-role">Role</label>
-            <select
-              id="register-role"
-              className="select"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-            >
-              <option value="doctor">Doctor</option>
-              <option value="reception">Reception</option>
-            </select>
+          <div className="form-grid mt-4">
+            <div className="field-group">
+              <label className="field-label" htmlFor="register-role">Role</label>
+              <select
+                id="register-role"
+                className="select"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+              >
+                <option value="doctor">Doctor</option>
+                <option value="reception">Reception</option>
+              </select>
+            </div>
+
+            <div className="field-group">
+              <label className="field-label" htmlFor="register-phone">
+                WhatsApp Number {role === "doctor" && <span className="text-blue-600">(for notifications)</span>}
+              </label>
+              <input
+                id="register-phone"
+                className="input"
+                type="tel"
+                placeholder="+919876543210"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+              <small className="text-gray-500 text-sm mt-1">
+                Include country code (e.g., +91 for India)
+              </small>
+            </div>
           </div>
 
           {error ? <div className="feedback-error mt-4">{error}</div> : null}

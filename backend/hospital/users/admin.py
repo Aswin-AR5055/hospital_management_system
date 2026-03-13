@@ -10,6 +10,7 @@ class CustomUserAdmin(UserAdmin):
         "id",
         "username",
         "role",
+        "phone_number",
         "is_active",
         "is_superuser",
     )
@@ -17,9 +18,9 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ("role",)
 
     fieldsets = UserAdmin.fieldsets + (
-        ("Hospital Role", {"fields": ("role",)}),
+        ("Hospital Role", {"fields": ("role", "phone_number")}),
     )
 
     add_fieldsets = UserAdmin.add_fieldsets + (
-        ("Hospital Role", {"fields": ("role",)}),
+        ("Hospital Role", {"fields": ("role", "phone_number")}),
     )
