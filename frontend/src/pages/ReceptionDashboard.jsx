@@ -15,13 +15,16 @@ export default function ReceptionDashboard() {
     <div className="page-shell">
       <div className="page-content">
         <section className="hero-panel">
-          <p className="eyebrow">Reception Desk</p>
-          <h1 className="page-title mt-4">Welcome, {username || "Reception Staff"}</h1>
-          <p className="page-copy mt-4">
-            Manage user onboarding and create patient visit tokens from one place.
-          </p>
-          <br />
-          <button style={{float: "right", marginTop: "-100px"}} className="btn-danger" onClick={handleLogout}>Logout</button>
+          <div style={{display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "1rem"}}>
+            <div style={{flex: "1", minWidth: "250px"}}>
+              <p className="eyebrow">Reception Desk</p>
+              <h1 className="page-title mt-4">Welcome, {username || "Reception Staff"}</h1>
+              <p className="page-copy mt-4">
+                Manage user onboarding and create patient visit tokens from one place.
+              </p>
+            </div>
+            <button className="btn-danger" onClick={handleLogout}>Logout</button>
+          </div>
         </section>
 
         <section className="stat-grid">
