@@ -79,7 +79,7 @@ export default function Consultation() {
     return (
       <div className="page-shell">
         <div className="page-content">
-          <section className="panel">{error || "Loading consultation details..."}</section>
+          <section className="panel">{error || "Loading..."}</section>
         </div>
       </div>
     );
@@ -89,41 +89,46 @@ export default function Consultation() {
     <div className="page-shell">
       <div className="page-content">
         <section className="hero-panel">
-          <p className="eyebrow">Consultation</p>
-          <h1 className="page-title mt-4">Consultation - Token #{visit.token_no}</h1>
-          <p className="page-copy mt-4">Complete vitals and finish the visit for patient ID {visit.patient}.</p>
+          <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem"}}>
+            <div>
+              <h1 className="page-title">Token #{visit.token_no} - Patient #{visit.patient}</h1>
+              <p className="page-copy mt-2">Record vitals and prescribe medicines</p>
+            </div>
+            <button className="btn-secondary" onClick={() => navigate("/doctor")}>Back</button>
+          </div>
         </section>
 
         <section className="panel max-w-5xl">
-          <div className="form-grid">
+          <h3 className="text-lg font-semibold text-white">Vitals</h3>
+          <div className="form-grid mt-4">
             <div className="field-group">
               <label className="field-label" htmlFor="blood-pressure">Blood Pressure</label>
               <input
                 id="blood-pressure"
                 className="input"
-                placeholder="e.g. 120/80"
+                placeholder="120/80"
                 value={bp}
                 onChange={(e) => setBp(e.target.value)}
               />
             </div>
 
             <div className="field-group">
-              <label className="field-label" htmlFor="weight">Weight</label>
+              <label className="field-label" htmlFor="weight">Weight (kg)</label>
               <input
                 id="weight"
                 className="input"
-                placeholder="e.g. 68"
+                placeholder="68"
                 value={weight}
                 onChange={(e) => setWeight(e.target.value)}
               />
             </div>
 
             <div className="field-group">
-              <label className="field-label" htmlFor="height">Height</label>
+              <label className="field-label" htmlFor="height">Height (cm)</label>
               <input
                 id="height"
                 className="input"
-                placeholder="e.g. 172"
+                placeholder="172"
                 value={height}
                 onChange={(e) => setHeight(e.target.value)}
               />
@@ -131,40 +136,28 @@ export default function Consultation() {
           </div>
 
           <div className="mt-8 flex items-center justify-between gap-4">
-            <div>
-              <p className="eyebrow">Prescription</p>
-              <h2 className="page-title mt-2 text-2xl">Medicines</h2>
-              <p className="page-copy mt-2">Add one or more medicines with timing and quantity.</p>
-            </div>
-
+            <h3 className="text-lg font-semibold text-white">Prescription</h3>
             <button className="btn-secondary" onClick={addRow} type="button">
-              Add Medicine
+              + Add Medicine
             </button>
           </div>
 
           {meds.map((m, i) => (
-            <div key={i} className="mt-6 rounded-3xl border border-white/10 bg-slate-950/50 p-5">
-              <div className="flex items-center justify-between gap-3">
-                <div>
-                  <p className="stat-label">Medicine {i + 1}</p>
-                  <p className="mt-1 text-sm text-slate-300">Enter the medication details for this prescription row.</p>
-                </div>
-              </div>
-
-              <div className="form-grid mt-4">
+            <div key={i} className="mt-4 rounded-2xl border border-white/10 bg-slate-950/50 p-5">
+              <div className="form-grid">
                 <div className="field-group">
-                  <label className="field-label" htmlFor={`meds-name-${i}`}>Medicine Name</label>
+                  <label className="field-label" htmlFor={`meds-name-${i}`}>Medicine</label>
                   <input
                     id={`meds-name-${i}`}
                     className="input"
-                    placeholder="Medicine"
+                    placeholder="Medicine name"
                     value={m.name}
                     onChange={(e) => updateMed(i, "name", e.target.value)}
                   />
                 </div>
 
                 <div className="field-group">
-                  <label className="field-label" htmlFor={`meds-type-${i}`}>Medicine Type</label>
+                  <label className="field-label" htmlFor={`meds-type-${i}`}>Type</label>
                   <select
                     id={`meds-type-${i}`}
                     className="select"
@@ -177,50 +170,48 @@ export default function Consultation() {
                 </div>
               </div>
 
-              <div className="mt-5 grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
-                <div className="grid gap-3 sm:grid-cols-3">
-                  <label className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-200">
-                    <input
-                      className="h-4 w-4 accent-cyan-400"
-                      type="checkbox"
-                      checked={m.morning}
-                      onChange={(e) => updateMed(i, "morning", e.target.checked)}
-                    />
-                    Morning
-                  </label>
+              <div className="mt-4 grid gap-3 sm:grid-cols-4">
+                <label className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200">
+                  <input
+                    className="h-4 w-4 accent-cyan-400"
+                    type="checkbox"
+                    checked={m.morning}
+                    onChange={(e) => updateMed(i, "morning", e.target.checked)}
+                  />
+                  Morning
+                </label>
 
-                  <label className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-200">
-                    <input
-                      className="h-4 w-4 accent-cyan-400"
-                      type="checkbox"
-                      checked={m.afternoon}
-                      onChange={(e) => updateMed(i, "afternoon", e.target.checked)}
-                    />
-                    Afternoon
-                  </label>
+                <label className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200">
+                  <input
+                    className="h-4 w-4 accent-cyan-400"
+                    type="checkbox"
+                    checked={m.afternoon}
+                    onChange={(e) => updateMed(i, "afternoon", e.target.checked)}
+                  />
+                  Afternoon
+                </label>
 
-                  <label className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-200">
-                    <input
-                      className="h-4 w-4 accent-cyan-400"
-                      type="checkbox"
-                      checked={m.evening}
-                      onChange={(e) => updateMed(i, "evening", e.target.checked)}
-                    />
-                    Evening
-                  </label>
-                </div>
+                <label className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200">
+                  <input
+                    className="h-4 w-4 accent-cyan-400"
+                    type="checkbox"
+                    checked={m.evening}
+                    onChange={(e) => updateMed(i, "evening", e.target.checked)}
+                  />
+                  Evening
+                </label>
 
-                <div className="field-group md:min-w-36">
-                  <label className="field-label" htmlFor={`meds-qty-${i}`}>Quantity</label>
+                <div className="field-group">
                   <input
                     id={`meds-qty-${i}`}
                     className="input"
                     type="number"
                     min="1"
+                    placeholder="Qty"
                     value={m.qty}
                     onChange={(e) => updateMed(i, "qty", e.target.value)}
                   />
-                  </div>
+                </div>
               </div>
             </div>
           ))}
@@ -229,10 +220,7 @@ export default function Consultation() {
 
           <div className="actions mt-6">
             <button className="btn-primary" disabled={isSubmitting} onClick={finishConsultation}>
-              {isSubmitting ? "Saving..." : "Finish Consultation"}
-            </button>
-            <button className="btn-secondary" onClick={() => navigate("/doctor")}>
-              Back to Doctor Dashboard
+              {isSubmitting ? "Saving..." : "Complete Consultation"}
             </button>
           </div>
         </section>

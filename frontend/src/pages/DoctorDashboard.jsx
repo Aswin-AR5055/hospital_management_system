@@ -53,20 +53,19 @@ export default function DoctorDashboard() {
     <div className="page-shell">
       <div className="page-content">
         <section className="hero-panel">
-          <p className="eyebrow">Doctor Workspace</p>
-          <h1 className="page-title mt-4">Today&apos;s queue for {username || "Doctor"}</h1>
-          <p className="page-copy mt-4">
-            Review waiting patients, start consultations, and open patient visit history.
-          </p>
-          <button style={{float: "right", marginTop: "-100px"}} className="btn-danger" onClick={logout}>Logout</button>
+          <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem"}}>
+            <div>
+              <h1 className="page-title">Dr. {username || "Doctor"}</h1>
+              <p className="page-copy mt-2">Today's patient queue</p>
+            </div>
+            <div style={{display: "flex", gap: "0.5rem"}}>
+              <button className="btn-secondary" onClick={fetchQueue}>Refresh</button>
+              <button className="btn-danger" onClick={logout}>Logout</button>
+            </div>
+          </div>
         </section>
 
-        <section className="panel">
-          <div className="actions">
-            <button className="btn-primary" onClick={fetchQueue}>Refresh Queue</button>
-          </div>
-          {error ? <div className="feedback-error mt-4">{error}</div> : null}
-        </section>
+        {error ? <div className="feedback-error">{error}</div> : null}
 
         <section className="table-shell">
           <div className="table-wrap">
@@ -81,12 +80,16 @@ export default function DoctorDashboard() {
               <tbody>
                 {queue.map((visit) => (
                   <tr key={visit.id}>
-                    <td>{visit.token_no}</td>
-                    <td>{visit.patient}</td>
+                    <td>
+                      <span className="inline-flex items-center justify-center rounded-lg bg-cyan-500/20 px-3 py-1 text-lg font-bold text-cyan-400">
+                        #{visit.token_no}
+                      </span>
+                    </td>
+                    <td className="text-slate-300">Patient #{visit.patient}</td>
                     <td>
                       <div className="actions">
                         <button className="btn-primary" onClick={() => navigate(`/consult/${visit.id}`)}>
-                          Start Consultation
+                          Consult
                         </button>
                         <button className="btn-secondary" onClick={() => navigate(`/patient-history/${visit.patient}`)}>
                           History
@@ -100,7 +103,7 @@ export default function DoctorDashboard() {
           </div>
 
           {!queue.length && !error ? (
-            <div className="empty-state m-5">No patients are queued for today yet.</div>
+            <div className="empty-state m-5">No patients in queue</div>
           ) : null}
         </section>
       </div>

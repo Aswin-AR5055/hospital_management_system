@@ -46,11 +46,9 @@ export default function PatientRegister() {
     setIsSubmitting(true);
 
     try {
-      // Step 1: Register patient
       const patientRes = await API.post("patients/", form);
       const patientId = patientRes.data.id;
 
-      // Step 2: Generate token
       const visitRes = await API.post("visits/", {
         patient: patientId,
         doctor: selectedDoctor,
@@ -58,7 +56,6 @@ export default function PatientRegister() {
 
       setToken(visitRes.data.token_no);
       
-      // Reset form
       setForm({
         name: "",
         phone: "",
@@ -80,20 +77,17 @@ export default function PatientRegister() {
     <div className="page-shell">
       <div className="page-content">
         <section className="hero-panel">
-          <p className="eyebrow">Patient Registration & Token</p>
-          <h1 className="page-title mt-4">Register Patient & Generate Token</h1>
-          <p className="page-copy mt-4">
-            Register a new patient and assign them to a doctor in one step.
-          </p>
+          <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem"}}>
+            <div>
+              <h1 className="page-title">New Patient Registration</h1>
+              <p className="page-copy mt-2">Register patient and assign to doctor</p>
+            </div>
+            <button className="btn-secondary" onClick={() => navigate("/reception")}>Back</button>
+          </div>
         </section>
 
         <section className="panel max-w-5xl">
-          <div>
-            <p className="eyebrow">Step 1</p>
-            <h2 className="page-title mt-2 text-2xl">Patient Details</h2>
-          </div>
-
-          <div className="form-grid mt-4">
+          <div className="form-grid">
             <div className="field-group">
               <label className="field-label" htmlFor="patient-name">Full Name</label>
               <input
@@ -107,36 +101,12 @@ export default function PatientRegister() {
             </div>
 
             <div className="field-group">
-              <label className="field-label" htmlFor="patient-phone">Phone</label>
-              <input
-                id="patient-phone"
-                className="input"
-                name="phone"
-                placeholder="Enter phone number"
-                value={form.phone}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="field-group">
-              <label className="field-label" htmlFor="patient-whatsapp">WhatsApp Number</label>
-              <input
-                id="patient-whatsapp"
-                className="input"
-                name="whatsapp_no"
-                placeholder="Enter WhatsApp number"
-                value={form.whatsapp_no}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="field-group">
               <label className="field-label" htmlFor="patient-age">Age</label>
               <input
                 id="patient-age"
                 className="input"
                 name="age"
-                placeholder="Enter age"
+                placeholder="Age"
                 type="number"
                 value={form.age}
                 onChange={handleChange}
@@ -144,15 +114,25 @@ export default function PatientRegister() {
             </div>
 
             <div className="field-group">
-              <label className="field-label" htmlFor="patient-temperature">Temperature (°C)</label>
+              <label className="field-label" htmlFor="patient-phone">Phone</label>
               <input
-                id="patient-temperature"
+                id="patient-phone"
                 className="input"
-                name="temperature"
-                placeholder="Enter temperature"
-                type="number"
-                step="0.1"
-                value={form.temperature}
+                name="phone"
+                placeholder="Phone number"
+                value={form.phone}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="field-group">
+              <label className="field-label" htmlFor="patient-whatsapp">WhatsApp</label>
+              <input
+                id="patient-whatsapp"
+                className="input"
+                name="whatsapp_no"
+                placeholder="WhatsApp number"
+                value={form.whatsapp_no}
                 onChange={handleChange}
               />
             </div>
@@ -168,13 +148,27 @@ export default function PatientRegister() {
                 onChange={handleChange}
               />
             </div>
+
+            <div className="field-group">
+              <label className="field-label" htmlFor="patient-temperature">Temperature (°C)</label>
+              <input
+                id="patient-temperature"
+                className="input"
+                name="temperature"
+                placeholder="Temperature"
+                type="number"
+                step="0.1"
+                value={form.temperature}
+                onChange={handleChange}
+              />
+            </div>
           </div>
 
           <div className="field-group mt-4">
             <label className="field-label" htmlFor="patient-address">Address</label>
             <textarea
               id="patient-address"
-              className="input min-h-28 resize-y"
+              className="input min-h-24 resize-y"
               name="address"
               placeholder="Enter address"
               value={form.address}
@@ -182,32 +176,30 @@ export default function PatientRegister() {
             />
           </div>
 
-          <div className="mt-8">
-            <p className="eyebrow">Step 2</p>
-            <h2 className="page-title mt-2 text-2xl">Assign Doctor</h2>
-          </div>
-
-          <div className="field-group mt-4 max-w-md">
-            <label className="field-label" htmlFor="doctor">Select Doctor</label>
-            <select
-              id="doctor"
-              className="select"
-              value={selectedDoctor}
-              onChange={(e) => setSelectedDoctor(e.target.value)}
-            >
-              <option value="">Choose a doctor</option>
-              {doctors.map((doc) => (
-                <option key={doc.id} value={doc.id}>
-                  Dr. {doc.username}
-                </option>
-              ))}
-            </select>
+          <div className="mt-6 rounded-2xl border border-cyan-500/30 bg-cyan-500/5 p-6">
+            <h3 className="text-lg font-semibold text-white">Assign Doctor</h3>
+            <div className="field-group mt-4 max-w-md">
+              <label className="field-label" htmlFor="doctor">Select Doctor</label>
+              <select
+                id="doctor"
+                className="select"
+                value={selectedDoctor}
+                onChange={(e) => setSelectedDoctor(e.target.value)}
+              >
+                <option value="">Choose a doctor</option>
+                {doctors.map((doc) => (
+                  <option key={doc.id} value={doc.id}>
+                    Dr. {doc.username}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
           {error ? <div className="feedback-error mt-4">{error}</div> : null}
           {token ? (
             <div className="feedback-success mt-4">
-              ✅ Patient registered successfully! Token #{token} generated for the selected doctor.
+              ✅ Patient registered! Token #{token} generated
             </div>
           ) : null}
 
@@ -218,9 +210,6 @@ export default function PatientRegister() {
               onClick={savePatientAndGenerateToken}
             >
               {isSubmitting ? "Processing..." : "Register & Generate Token"}
-            </button>
-            <button className="btn-secondary" onClick={() => navigate("/reception")}>
-              Back to Reception
             </button>
           </div>
         </section>

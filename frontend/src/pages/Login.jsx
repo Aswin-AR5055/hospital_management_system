@@ -40,42 +40,18 @@ export default function Login() {
 
   return (
     <div className="page-shell">
-      <div className="page-content lg:grid lg:max-w-7xl lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-        <section className="hero-panel">
-          <p className="eyebrow">Hospital Management System</p>
-          <h1 className="page-title mt-4">Run reception and consultation workflows from one dashboard.</h1>
-          <p className="page-copy mt-4">
-            Sign in with your staff account to manage registrations, issue visit tokens,
-            and access the doctor consultation queue.
-          </p>
-          <div className="stat-grid mt-8">
-            <div className="stat-card">
-              <p className="stat-label">Reception</p>
-              <p className="stat-value">Create staff and generate daily tokens</p>
-            </div>
-            <div className="stat-card">
-              <p className="stat-label">Doctor</p>
-              <p className="stat-value">Review queue and complete consultations</p>
-            </div>
-            <div className="stat-card">
-              <p className="stat-label">Records</p>
-              <p className="stat-value">Access patient history in one place</p>
-            </div>
-          </div>
-        </section>
+      <div className="page-content">
+        <section className="panel mx-auto w-full max-w-md">
+          <h2 className="page-title text-2xl text-center">Hospital Management</h2>
+          <p className="page-copy mt-2 text-center">Sign in to continue</p>
 
-        <section className="panel mx-auto w-full max-w-xl">
-          <p className="eyebrow">Staff Login</p>
-          <h2 className="page-title mt-3 text-2xl">Welcome back</h2>
-          <p className="page-copy mt-3">Use the same username and password that was created for your staff account.</p>
-
-          <form className="mt-8 space-y-4" onSubmit={handleLogin}>
+          <form className="mt-6 space-y-4" onSubmit={handleLogin}>
             <div className="field-group">
               <label className="field-label" htmlFor="username">Username</label>
               <input
                 id="username"
                 className="input"
-                placeholder="Enter your username"
+                placeholder="Enter username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
@@ -87,7 +63,7 @@ export default function Login() {
                 id="password"
                 className="input"
                 type="password"
-                placeholder="Enter your password"
+                placeholder="Enter password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />

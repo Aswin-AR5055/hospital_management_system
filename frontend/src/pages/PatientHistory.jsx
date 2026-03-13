@@ -27,9 +27,13 @@ export default function PatientHistory() {
     <div className="page-shell">
       <div className="page-content">
         <section className="hero-panel">
-          <p className="eyebrow">Patient Record</p>
-          <h1 className="page-title mt-4">Visit history for patient #{id}</h1>
-          <p className="page-copy mt-4">Review previous vitals and consultation timestamps.</p>
+          <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem"}}>
+            <div>
+              <h1 className="page-title">Patient #{id} History</h1>
+              <p className="page-copy mt-2">Previous visits and prescriptions</p>
+            </div>
+            <button className="btn-secondary" onClick={() => navigate(-1)}>Back</button>
+          </div>
         </section>
 
         {error ? <div className="feedback-error">{error}</div> : null}
@@ -50,18 +54,26 @@ export default function PatientHistory() {
               <tbody>
                 {visits.map((visit) => (
                   <tr key={visit.id}>
-                    <td>{visit.token_no}</td>
-                    <td>{visit.blood_pressure || "-"}</td>
-                    <td>{visit.weight || "-"}</td>
-                    <td>{visit.height || "-"}</td>
                     <td>
-                      {visit.prescriptions?.map(p => (
-                        <div key={p.id}>
-                          {p.medicine_name} ({p.quantity})
-                        </div>
-                      ))}
+                      <span className="inline-flex items-center justify-center rounded-lg bg-cyan-500/20 px-2 py-1 text-sm font-bold text-cyan-400">
+                        #{visit.token_no}
+                      </span>
                     </td>
-                    <td>{new Date(visit.intime).toLocaleString()}</td>
+                    <td>{visit.blood_pressure || "-"}</td>
+                    <td>{visit.weight ? `${visit.weight} kg` : "-"}</td>
+                    <td>{visit.height ? `${visit.height} cm` : "-"}</td>
+                    <td>
+                      {visit.prescriptions?.length > 0 ? (
+                        <div className="space-y-1">
+                          {visit.prescriptions.map(p => (
+                            <div key={p.id} className="text-sm">
+                              {p.medicine_name} ({p.quantity})
+                            </div>
+                          ))}
+                        </div>
+                      ) : "-"}
+                    </td>
+                    <td className="text-slate-400">{new Date(visit.intime).toLocaleDateString()}</td>
                   </tr>
                 ))}
               </tbody>
@@ -69,15 +81,9 @@ export default function PatientHistory() {
           </div>
 
           {!visits.length && !error ? (
-            <div className="empty-state m-5">No historical visits were found for this patient.</div>
+            <div className="empty-state m-5">No visit history found</div>
           ) : null}
         </section>
-
-        <div className="actions">
-          <button className="btn-secondary" onClick={() => navigate(-1)}>
-            Back
-          </button>
-        </div>
       </div>
     </div>
   );

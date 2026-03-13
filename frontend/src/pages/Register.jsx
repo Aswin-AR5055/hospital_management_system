@@ -37,11 +37,13 @@ export default function Register() {
     <div className="page-shell">
       <div className="page-content">
         <section className="hero-panel">
-          <p className="eyebrow">Staff Onboarding</p>
-          <h1 className="page-title mt-4">Create a new staff account</h1>
-          <p className="page-copy mt-4">
-            Reception can create new doctor and reception users directly from this dashboard.
-          </p>
+          <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem"}}>
+            <div>
+              <h1 className="page-title">Create Staff Account</h1>
+              <p className="page-copy mt-2">Add new doctor or reception staff</p>
+            </div>
+            <button className="btn-secondary" onClick={() => navigate("/reception")}>Back</button>
+          </div>
         </section>
 
         <section className="panel max-w-3xl">
@@ -51,7 +53,7 @@ export default function Register() {
               <input
                 id="register-username"
                 className="input"
-                placeholder="Enter a username"
+                placeholder="Enter username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
@@ -63,14 +65,12 @@ export default function Register() {
                 id="register-password"
                 className="input"
                 type="password"
-                placeholder="Create a password"
+                placeholder="Create password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-          </div>
 
-          <div className="form-grid mt-4">
             <div className="field-group">
               <label className="field-label" htmlFor="register-role">Role</label>
               <select
@@ -86,7 +86,7 @@ export default function Register() {
 
             <div className="field-group">
               <label className="field-label" htmlFor="register-phone">
-                WhatsApp Number {role === "doctor" && <span className="text-blue-600">(for notifications)</span>}
+                WhatsApp Number {role === "doctor" && <span className="text-cyan-400">(for notifications)</span>}
               </label>
               <input
                 id="register-phone"
@@ -96,7 +96,7 @@ export default function Register() {
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
               />
-              <small className="text-gray-500 text-sm mt-1">
+              <small className="text-slate-500 text-sm mt-1">
                 Include country code (e.g., +91 for India)
               </small>
             </div>
@@ -106,10 +106,7 @@ export default function Register() {
 
           <div className="actions mt-6">
             <button className="btn-primary" disabled={isSubmitting} onClick={registerUser}>
-              {isSubmitting ? "Creating..." : "Register"}
-            </button>
-            <button className="btn-secondary" onClick={() => navigate("/reception")}>
-              Back to Reception
+              {isSubmitting ? "Creating..." : "Create Account"}
             </button>
           </div>
         </section>
