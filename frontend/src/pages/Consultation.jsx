@@ -202,6 +202,7 @@ export default function Consultation() {
                 </label>
 
                 <div className="field-group">
+                  <label className="field-label" htmlFor="quantity">Quantity</label>
                   <input
                     id={`meds-qty-${i}`}
                     className="input"

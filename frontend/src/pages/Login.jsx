@@ -39,7 +39,7 @@ export default function Login() {
   };
 
   return (
-    <div className="page-shell">
+    <div className="page-shell flex justify-center items-center">
       <div className="page-content">
         <section className="panel mx-auto w-full max-w-md">
           <h2 className="page-title text-2xl text-center">Hospital Management</h2>
