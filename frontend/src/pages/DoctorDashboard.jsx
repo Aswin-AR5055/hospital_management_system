@@ -85,7 +85,7 @@ export default function DoctorDashboard() {
                         #{visit.token_no}
                       </span>
                     </td>
-                    <td className="text-slate-300">Patient #{visit.patient}</td>
+                    <td className="text-slate-300">Patient #{visit.patient}{visit.patient_name}</td>
                     <td>
                       <div className="actions">
                         <button className="btn-primary" onClick={() => navigate(`/consult/${visit.id}`)}>

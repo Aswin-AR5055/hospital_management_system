@@ -14,6 +14,7 @@ export default function Consultation() {
     { name: "", type: "tablet", morning: false, afternoon: false, evening: false, qty: 1 }
   ]);
   const [height, setHeight] = useState("");
+  const [health_issue, setHealthIssue] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -49,6 +50,7 @@ export default function Consultation() {
         blood_pressure: bp,
         weight: weight,
         height: height,
+        health_issue: health_issue,
       });
 
       const validMeds = meds.filter((medicine) => medicine.name.trim());
@@ -131,6 +133,15 @@ export default function Consultation() {
                 placeholder="172"
                 value={height}
                 onChange={(e) => setHeight(e.target.value)}
+              />
+            </div>
+            <div className="field-group">
+              <label className="field-label" htmlFor="health_issue">Health Issue</label>
+              <input
+                id="health_issue"
+                className="input"
+                placeholder="Cold"
+                onChange={(e) => setHealthIssue(e.target.value)}
               />
             </div>
           </div>
