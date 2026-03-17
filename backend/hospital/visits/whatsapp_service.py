@@ -6,70 +6,74 @@ class WhatsAppService:
         self.account_sid = os.getenv('TWILIO_ACCOUNT_SID')
         self.auth_token = os.getenv('TWILIO_AUTH_TOKEN')
         self.from_number = os.getenv('TWILIO_WHATSAPP_NUMBER')
-        
-        print(f"[WhatsApp] Initializing...")
-        print(f"[WhatsApp] Account SID: {self.account_sid[:10] if self.account_sid else 'NOT SET'}...")
-        print(f"[WhatsApp] From Number: {self.from_number if self.from_number else 'NOT SET'}")
-        
+
         if self.account_sid and self.auth_token:
             self.client = Client(self.account_sid, self.auth_token)
-            print(f"[WhatsApp] Twilio client initialized successfully")
         else:
             self.client = None
-            print(f"[WhatsApp] ERROR: Twilio credentials not found in environment")
+            print("[WhatsApp] ERROR: Twilio credentials not found in environment")
 
-    def send_visit_notification(self, visit):
-        print(f"\n[WhatsApp] Attempting to send notification for visit #{visit.token_no}")
-        
+    def send_token_notification(self, visit):
         if not self.client:
-            print("[WhatsApp] ERROR: Twilio not configured. Skipping WhatsApp notification.")
+            print("[WhatsApp] ERROR: Twilio not configured.")
             return False
-        
-        doctor = visit.doctor
-        print(f"[WhatsApp] Doctor: {doctor.username}")
-        print(f"[WhatsApp] Doctor phone: {doctor.phone_number if doctor.phone_number else 'NOT SET'}")
-        
-        if not doctor.phone_number:
-            print(f"[WhatsApp] ERROR: Doctor {doctor.username} has no phone number.")
-            return False
-        
+
         patient = visit.patient
-        message_body = f"""
-🏥 *New Patient Visit*
+        if not patient.whatsapp_no:
+            print(f"[WhatsApp] ERROR: Patient {patient.name} has no WhatsApp number.")
+            return False
 
-👤 *Patient:* {patient.name}
-👨‍⚕️ *Doctor:* {doctor.username}
-🎫 *Token No:* {visit.token_no}
-📅 *Date:* {visit.intime.strftime('%d-%m-%Y %I:%M %p')}
+        intime = visit.intime.strftime('%d-%m-%Y %I:%M %p')
+        outtime = visit.outtime.strftime('%d-%m-%Y %I:%M %p') if visit.outtime else 'Pending'
 
-📋 *Patient Details:*
-• Age: {patient.age} years
-• Phone: {patient.phone}
-• WhatsApp: {patient.whatsapp_no}
+        message_body = f"""🏥 *Token Confirmation*
 
-⚕️ *Health Issue:* {visit.health_issue or 'Not specified'}
+*Name:* {patient.name}
+*Token No:* {visit.token_no}
+*In Time:* {intime}
+*Out Time:* {outtime}"""
 
-💊 *Vitals:*
-• BP: {visit.blood_pressure or 'N/A'}
-• Weight: {visit.weight or 'N/A'} kg
-• Temperature: {patient.temperature}°C
-
-Please check your dashboard for more details.
-        """.strip()
-        
         try:
-            to_number = f"whatsapp:{doctor.phone_number}"
-            print(f"[WhatsApp] Sending to: {to_number}")
-            print(f"[WhatsApp] From: {self.from_number}")
-            
+            to_number = f"whatsapp:{patient.whatsapp_no}"
             message = self.client.messages.create(
                 body=message_body,
                 from_=self.from_number,
                 to=to_number
             )
             print(f"[WhatsApp] SUCCESS! Message SID: {message.sid}")
-            print(f"[WhatsApp] Status: {message.status}")
             return True
         except Exception as e:
-            print(f"[WhatsApp] ERROR: Failed to send WhatsApp: {str(e)}")
+            print(f"[WhatsApp] ERROR: {str(e)}")
+            return False
+
+    def send_outtime_notification(self, visit):
+        if not self.client:
+            print("[WhatsApp] ERROR: Twilio not configured.")
+            return False
+
+        patient = visit.patient
+        if not patient.whatsapp_no:
+            return False
+
+        outtime = visit.outtime.strftime('%d-%m-%Y %I:%M %p')
+
+        message_body = f"""✅ *Consultation Complete*
+
+*Name:* {patient.name}
+*Token No:* {visit.token_no}
+*Out Time:* {outtime}
+
+Thank you for visiting. Get well soon! 🙏"""
+
+        try:
+            to_number = f"whatsapp:{patient.whatsapp_no}"
+            message = self.client.messages.create(
+                body=message_body,
+                from_=self.from_number,
+                to=to_number
+            )
+            print(f"[WhatsApp] Outtime notification sent. SID: {message.sid}")
+            return True
+        except Exception as e:
+            print(f"[WhatsApp] ERROR: {str(e)}")
             return False

@@ -40,9 +40,14 @@ class VisitViewSet(viewsets.ModelViewSet):
 
     serializer_class = VisitSerializer
 
-    def perform_update(self, serializer):
+    def perform_create(self, serializer):
         visit = serializer.save()
-        # Send WhatsApp notification after consultation (when vitals are updated)
-        if visit.blood_pressure or visit.weight:
+        whatsapp_service = WhatsAppService()
+        whatsapp_service.send_token_notification(visit)
+
+    def perform_update(self, serializer):
+        old_outtime = self.get_object().outtime
+        visit = serializer.save()
+        if not old_outtime and visit.outtime:
             whatsapp_service = WhatsAppService()
-            whatsapp_service.send_visit_notification(visit)
+            whatsapp_service.send_outtime_notification(visit)
