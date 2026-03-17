@@ -27,7 +27,7 @@ export default function ReceptionDashboard() {
         <section className="panel">
           <div className="grid gap-4 md:grid-cols-2">
             <button 
-              className="flex flex-col items-start gap-3 rounded-2xl border border-cyan-500/30 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 p-6 text-left transition-all hover:border-cyan-400/50 hover:shadow-lg hover:shadow-cyan-500/20"
+              className="flex flex-col items-start gap-3 rounded-2xl border border-cyan-500/30 bg-linear-to-br from-cyan-500/10 to-blue-500/10 p-6 text-left transition-all hover:border-cyan-400/50 hover:shadow-lg hover:shadow-cyan-500/20"
               onClick={() => navigate("/patient-register")}
             >
               <div className="rounded-xl bg-cyan-500/20 p-3">
@@ -42,7 +42,7 @@ export default function ReceptionDashboard() {
             </button>
 
             <button 
-              className="flex flex-col items-start gap-3 rounded-2xl border border-purple-500/30 bg-gradient-to-br from-purple-500/10 to-pink-500/10 p-6 text-left transition-all hover:border-purple-400/50 hover:shadow-lg hover:shadow-purple-500/20"
+              className="flex flex-col items-start gap-3 rounded-2xl border border-purple-500/30 bg-linear-to-br from-purple-500/10 to-pink-500/10 p-6 text-left transition-all hover:border-purple-400/50 hover:shadow-lg hover:shadow-purple-500/20"
               onClick={() => navigate("/register")}
             >
               <div className="rounded-xl bg-purple-500/20 p-3">

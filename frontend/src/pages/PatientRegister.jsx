@@ -26,7 +26,7 @@ export default function PatientRegister() {
       try {
         const res = await API.get("users/");
         setDoctors(res.data.filter((user) => user.role === "doctor"));
-      } catch (err) {
+      } catch {
         setError("Failed to load doctors");
       }
     };
