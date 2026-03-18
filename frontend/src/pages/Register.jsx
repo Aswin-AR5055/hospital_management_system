@@ -44,7 +44,7 @@ export default function Register() {
           </div>
         </section>
 
-        <section className="panel max-w-3xl">
+        <section className="panel max-w-3sm">
           <div className="form-grid">
             <div className="field-group">
               <label className="field-label" htmlFor="register-username">Username</label>

@@ -18,7 +18,7 @@ export default function ReceptionDashboard() {
           <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem"}}>
             <div>
               <h1 className="page-title">Welcome, {username || "Reception"}</h1>
-              <p className="page-copy mt-2">Manage patients and staff efficiently</p>
+              <p className="page-copy mt-2">Manage patients and staff</p>
             </div>
             <button className="btn-danger" onClick={handleLogout}>Logout</button>
           </div>

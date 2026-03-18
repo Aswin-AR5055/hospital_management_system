@@ -86,7 +86,7 @@ export default function PatientRegister() {
           </div>
         </section>
 
-        <section className="panel max-w-5xl">
+        <section className="panel max-w-5sm">
           <div className="form-grid">
             <div className="field-group">
               <label className="field-label" htmlFor="patient-name">Full Name</label>
