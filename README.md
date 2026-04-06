@@ -6,7 +6,7 @@ A full-stack hospital management system built with Django REST Framework (backen
 
 <div align="center">
 
-### [![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Application-success?style=for-the-badge&logo=google-chrome&logoColor=white)](https://d2nc0r5fw615iw.cloudfront.net)
+### [![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Application-success?style=for-the-badge&logo=google-chrome&logoColor=white)](https://d2wb2a9ugg8m3h.cloudfront.net)
 
 **🔐 Test Credentials**
 
