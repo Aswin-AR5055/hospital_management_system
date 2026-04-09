@@ -1,8 +1,11 @@
 import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 const API = axios.create({
     baseURL: import.meta.env.VITE_API_URL || "/api/"
 });
+
+const navigate = Navigate();
 
 API.interceptors.request.use((req) => {
     const token = localStorage.getItem("token");
@@ -20,7 +23,7 @@ API.interceptors.response.use(
         if (error.response?.status === 401) {
             localStorage.removeItem("token");
             localStorage.removeItem("user");
-            window.location.href = "/";
+            navigate("/");
         }
         return Promise.reject(error);
     }
