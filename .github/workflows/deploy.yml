@@ -16,15 +16,17 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            # Set non-interactive mode to prevent Docker upgrade prompts from hanging
+            export DEBIAN_FRONTEND=noninteractive
 
-            sudo apt update
-            sudo apt install -y docker.io git curl
+            sudo apt-get update
+            sudo -E apt-get install -y -o Dpkg::Options::="--force-confold" docker.io git curl
 
             sudo systemctl start docker
             sudo systemctl enable docker
 
             if [ ! -f /usr/local/bin/docker-compose ]; then
-              sudo curl -L https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+              sudo curl -L "https://github.com(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
               sudo chmod +x /usr/local/bin/docker-compose
             fi
 
