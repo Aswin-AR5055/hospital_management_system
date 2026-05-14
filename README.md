@@ -2,7 +2,7 @@
 
 A full-stack hospital management system built with Django REST Framework (backend) and React (frontend), deployed on AWS EC2 with CloudFront CDN.
 
-## 🚀 Live Demo
+## 🚀 Live Demo - Server Down for now
 
 <div align="center">
 
