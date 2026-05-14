@@ -1,9 +1,7 @@
 name: Deploy to EC2
 
 on:
-  push:
-    branches:
-      - master
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -26,7 +24,7 @@ jobs:
             sudo systemctl enable docker
 
             if [ ! -f /usr/local/bin/docker-compose ]; then
-              sudo curl -L "https://github.com(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+              sudo curl -L "github.com$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
               sudo chmod +x /usr/local/bin/docker-compose
             fi
 
